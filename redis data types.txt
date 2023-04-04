@@ -1,0 +1,135 @@
+###################################################################################################################################################
+							  REDİS GENEL
+redis-server => server çalıştırma
+redis-cli => redis client tarafı çalıştırma
+
+
+datalar key value olarak kayıt edilir
+datalar redis tarafında binary olarak tutulur o yüzden biz bir image bile saklayabiliriz binnary hale çevirdikten sonra
+
+###################################################################################################################################################
+ 	 						   REDİS STRİNG
+---------------------------------------------------------------------------------------------------------------------------------------------------
+set [key] [value]
+set name hasan
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+get [key]
+get name =====> {hasan}
+
+getrange [key] [start_index] [count]  //verdiğim keydeki string değerin belli karakterlerini oku
+
+getrange name 0 3 =====> {has}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+INCRT [key]  => sayısal bir değerse key'e karşılık gelen value bir artırır
+örn
+set ziyaretci 1000
+incr ziyaretci=====> {1001}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+INCRBY [KEY] [VALUE] => verilen keye karşılık olan sayısal değeri value kadar artırır
+
+INCRBY ziyaretci 10 ==> 1001+10 => 1011
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+DECR [key] => verilen keye karşılık olan sayılsal değeri bir azaltır
+
+decr ziyaretci ====> 1011-1 = 1010
+
+DECRBY [key]  [Value]=> verilen keye karşılık olan sayılsal değeri value kadar azaltırr
+---------------------------------------------------------------------------------------------------------------------------------------------------
+APPEND [KEY] [value] => bu keye sahip olan dataya value' değerini ekler
+appen name berzan {name : hasan (şuan ki değeri)}
+=> name => hasanbezan
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+###################################################################################################################################################
+							REDİS LİST
+---------------------------------------------------------------------------------------------------------------------------------------------------
+(linklist gibi)
+LPUSH [keyname] [value]  (l aslında left denemek soldan ekleme yani başına)
+RPUSH [keyname] [value]  (r aslında rigth denemek sağdan ekleme yani sonuna)
+
+lpush kitaplar kitap1 => kitap1 eklendi
+lpush kitaplar kitap2 => kitap2 eklendi
+---------------------------------------------------------------------------------------------------------------------------------------------------
+LRANGE [keyname] [Startindex] [endIndex]  => belirtilen key'deki listenin elemanlarını listeler (endIndex -1 olursa hepsini sıralaar) 
+lrange kitaplar 0 3 ==>  kitap  
+---------------------------------------------------------------------------------------------------------------------------------------------------
+LPOP [keyNama] => listenin başından datayı siler
+RPOP [keyNama] => listenin sonundan datayı siler
+lpop kitaplar => kitaplar key'in temsil ettiği listenin başındaki ilk elemanı kaldırır
+---------------------------------------------------------------------------------------------------------------------------------------------------
+LINDEX [keyname] [index] => keyname'ye karışılık listenin içinden belirtilen indexteki datayı döner
+lindex kitaplar 1 => kitaplar key'ine karşılık gelen listenin içinden 1 nolu indexdeki datayı  getirir
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+###################################################################################################################################################
+							REDİS SET
+c# hashset
+
+list gibi bir veri tipidir ama aynı veriden iki tane tutamayız
+listenin başına sonuna ekleme olayı burada yok kendisi random ekler
+SADD [keyName] [value]
+sadd color blue
+---------------------------------------------------------------------------------------------------------------------------------------------------
+SMembers [keyname] => set içerisindeki dataları listeler
+smembers color => ... ... .. 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+SREM [KEY] [VALUE] => key'e sahip set içersinden verilen value'yu siler
+srem color green => color key'ine sahip set içerisinde green değerini  siler
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+###################################################################################################################################################
+							REDİS SORTED SET
+c# sortedhashset
+ZADD [keyname] [score] [value]  === =>[score] = sıralama değerini ifade ediyor
+
+zadd kitaplar 1 kitap1
+zadd kitaplar 2 kitap2
+zadd kitaplar 2 kitap3  => score değerleri aynı olabilir gruplama yaparak sıralar
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ZRANGE [KeyName] [startIndex] [endIndex] [withscores(optional)] => belirtilen key'deki sorted listin elemanlarını sıralar sondaki parametre opsiyonel score değelerini göstermek için
+zrange kitaplar 0 -1 => hepsini listeler
+zrange kitaplar 0 -1 withscores => scorelar ile birlikte hepsini listeyeler belirtilen key altındaki sorted list'in
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+ZREM [KeyName] [Value] => belirtilen key'e ait sorted set içindeki belirtilen value değerini siler
+zrem kitaplar kitap1
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+###################################################################################################################################################
+							REDİS HASH
+
+hash = key value şeklide array tutabileceğimiz bir veri tipi
+
+HMSET [HASH-KEYNAME] [VALUE-KEY] [VALUE]
+
+hmset sozluk pencil kalem
+hmset sozluk window pencere
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+HGET [HASH-KEYNAME] [VALUE-KEY]  verilen hash key altında verilen value-key değerine göre datayı getrir
+
+HGET SOZLUK PENCIL ====> KALEM DEĞERİNİ GETİRİR
+---------------------------------------------------------------------------------------------------------------------------------------------------
+HDEL [HASH-KEYNAME] [VALUE-KEY] verilen hash key altında verilen value-key değerine göre datayı SİLER
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+HGETALL [HASH-KEYNAME] dataların hepsini listeler
+
+
+
+
+
+
+
+
+
+
+
